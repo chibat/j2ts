@@ -27,7 +27,6 @@ import java.net.URL;
 import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.concurrent.Callable;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
@@ -41,6 +40,10 @@ public class Package {
     public final Set<Class<?>> classesForClass = new HashSet<>();
     public final Set<Class<?>> classesForInterface = new HashSet<>();
 
+    /**
+     * 
+     * @param packageName
+     */
     public Package(String packageName) {
         this.classLoader = Thread.currentThread().getContextClassLoader();
         final String resourceName = packageNameToResourceName(packageName);
@@ -136,15 +139,5 @@ public class Package {
 
     private String packageNameToResourceName(String packageName) {
         return packageName.replace('.', '/');
-    }
-
-    public static <T> T uncheckCall(Callable<T> callable) {
-        try {
-            return callable.call();
-        } catch (RuntimeException e) {
-            throw e;
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
     }
 }

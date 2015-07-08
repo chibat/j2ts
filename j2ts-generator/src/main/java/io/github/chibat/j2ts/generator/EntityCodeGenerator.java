@@ -44,24 +44,44 @@ public class EntityCodeGenerator {
     protected final ObjectMapper objectMapper;
     protected boolean asClass = false;
 
+    /**
+     * 
+     */
     public EntityCodeGenerator() {
         this.objectMapper = new ObjectMapper();
     }
 
+    /**
+     * 
+     * @param objectMapper
+     */
     public EntityCodeGenerator(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
     }
 
+    /**
+     * 
+     * @return
+     */
     public EntityCodeGenerator asClass() {
         this.asClass = true;
         return this;
     }
 
+    /**
+     * 
+     * @return
+     */
     public EntityCodeGenerator asInterface() {
         this.asClass = false;
         return this;
     }
 
+    /**
+     * 
+     * @param classes
+     * @return
+     */
     public EntityCodeGenerator readClass(Class<?>... classes) {
         for (Class<?> clazz : classes) {
             generate(clazz);
@@ -69,6 +89,10 @@ public class EntityCodeGenerator {
         return this;
     }
 
+    /**
+     * 
+     * @param path
+     */
     public void writeFile(String path) {
         try (Writer writer = new OutputStreamWriter(new FileOutputStream(new File(path)), "UTF-8")) {
             write(writer);
@@ -77,6 +101,10 @@ public class EntityCodeGenerator {
         }
     }
 
+    /**
+     * 
+     * @return
+     */
     public String asString() {
         try (Writer writer = new StringWriter()) {
             return write(writer).toString();
@@ -85,6 +113,9 @@ public class EntityCodeGenerator {
         }
     }
 
+    /**
+     * 
+     */
     public void print() {
         try (OutputStreamWriter writer = new OutputStreamWriter(System.out)) {
             write(writer);
@@ -93,6 +124,11 @@ public class EntityCodeGenerator {
         }
     }
 
+    /**
+     * 
+     * @param writer
+     * @return
+     */
     public Writer write(Writer writer) {
         String declarationType = this.asClass ? "class" : "interface";
         try {

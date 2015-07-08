@@ -28,6 +28,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  */
 public class Main {
 
+    /**
+     * 
+     * @param basePackageNames
+     * @param outputFileClass
+     * @param outputFileInterface
+     * @param objectMapperClass
+     */
     public static void execute(String basePackageNames, String outputFileClass,
             String outputFileInterface, String objectMapperClass) {
 
@@ -69,6 +76,10 @@ public class Main {
         }
     }
 
+    /**
+     * 
+     * @param args
+     */
     public static void main(String[] args) {
         if (args.length <= 1) {
             throw new IllegalArgumentException(
