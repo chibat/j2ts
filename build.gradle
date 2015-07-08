@@ -1,0 +1,195 @@
+
+buildscript {
+  repositories {
+    jcenter()
+  }
+  dependencies {
+    classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.2'
+    classpath 'at.irian.typescript:gradle-typescript-plugin:0.12'
+  }
+}
+
+task wrapper(type: Wrapper) {
+  gradleVersion = '2.4'
+}
+
+allprojects {
+  apply plugin: 'eclipse'
+
+  eclipse {
+    copy{
+      from 'eclipse/org.eclipse.core.resources.prefs'
+      into '.settings'
+    }
+    copy{
+      from 'eclipse/org.eclipse.core.runtime.prefs'
+      into '.settings'
+    }
+  }
+}
+
+subprojects {
+
+  apply plugin: 'java'
+
+  group = 'io.github.chibat'
+  version = "0.0.0"
+
+  repositories.jcenter()
+
+//  configurations {
+//    provided
+//  }
+//  eclipse.classpath.plusConfigurations += [configurations.provided]
+//
+//  sourceSets {
+//    main.compileClasspath += configurations.provided
+//    test.compileClasspath += configurations.provided
+//    test.runtimeClasspath += configurations.provided
+//  }
+
+  sourceCompatibility = targetCompatibility = 1.8
+  tasks.withType(AbstractCompile) each { it.options.encoding = 'UTF-8' }
+  [javadoc]*.options*.encoding = 'UTF-8'
+
+  dependencies {
+    testCompile 'junit:junit:4.11'
+  }
+
+  apply from:'../eclipse.gradle'
+}
+
+configure([ project("j2ts-annotation"), project("j2ts-generator")]) {
+
+  apply plugin: 'maven-publish'
+  apply plugin: 'com.jfrog.bintray'
+
+  task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+  }
+
+  task javadocJar(type: Jar) {
+    classifier = "javadoc"
+    from javadoc
+  }
+
+  artifacts {
+    archives sourcesJar
+    archives javadocJar
+  }
+
+  def mypom = {
+    scm {
+      url 'https://github.com/chibat/j2ts'
+    }
+    licenses {
+      license {
+        name "The Apache Software License, Version 2.0"
+        url "http://www.apache.org/licenses/LICENSE-2.0.txt"
+        distribution "repo"
+      }
+    }
+    developers {
+      developer {
+        id "chibat"
+        name "Tomofumi Chiba"
+      }
+    }
+  }
+
+  publishing {
+    publications {
+      mavenJava(MavenPublication) {
+        from components.java
+
+        artifact sourcesJar
+        artifact javadocJar
+
+        pom.withXml {
+          def root = asNode()
+          root.children().last() + mypom
+        }
+      }
+    }
+  }
+
+  bintray {
+    user = project.hasProperty('bintrayUsername') ? project.getProperty('bintrayUsername') : null
+    key =  project.hasProperty('bintrayAPIKey') ? project.getProperty('bintrayAPIKey') : null
+    publications = ['mavenJava']
+  }
+}
+
+project("j2ts-annotation") {
+  bintray {
+    pkg {
+      repo = 'maven'
+      name = 'j2ts-annotation'
+      licenses = ['Apache-2.0']
+    }
+  }
+}
+
+project("j2ts-generator") {
+
+  bintray {
+    pkg {
+      repo = 'maven'
+      name = 'j2ts-generator'
+      licenses = ['Apache-2.0']
+    }
+  }
+
+  dependencies {
+    compile 'com.fasterxml.jackson.module:jackson-module-jsonSchema:2.4.0'
+    compile(project(":j2ts-annotation"))
+  }
+}
+
+project("j2ts-example") {
+  apply plugin: 'application'
+  apply plugin: 'typescript'
+
+  typescript {
+    tscOptions = ['--noImplicitAny']
+    generatedJsPath = 'src/main/resources/META-INF/resources/js/generated'
+  }
+
+  // run.dependsOn compileTypeScript
+
+  eclipse {
+    project {
+      natures 'com.palantir.typescript.typeScriptNature'
+      buildCommand 'com.palantir.typescript.typeScriptBuilder'
+    }
+    copy{
+      from 'eclipse/com.palantir.typescript.prefs'
+      into '.settings'
+    }
+  }
+
+  mainClassName = 'app.CalculateController'
+
+  dependencies {
+    compile 'org.springframework.boot:spring-boot-starter-web:1.2.5.RELEASE'
+    compile 'org.webjars.bower:bootstrap:3.3.4'
+	compile 'org.webjars:mithril:0.2.0'
+    compile 'org.projectlombok:lombok:1.16.4'
+    compile(project(":j2ts-annotation")) // (1)
+  }
+
+  task generateTypeScriptCode(type: JavaExec) {
+    configurations{j2ts}
+    dependencies {j2ts(project(":j2ts-generator"))}
+    classpath = sourceSets.main.runtimeClasspath
+    classpath += configurations.j2ts
+    main = "io.github.chibat.j2ts.generator.Main"
+    args(
+      'app', // base package names
+      'src/main/typescript/entity.ts' // output file
+    );
+  }
+}
+
+

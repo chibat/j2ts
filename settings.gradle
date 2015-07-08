@@ -1,0 +1,6 @@
+rootProject.name = 'j2ts'
+
+include 'j2ts-annotation'
+include 'j2ts-generator'
+include 'j2ts-example'
+
