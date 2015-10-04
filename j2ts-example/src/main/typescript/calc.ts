@@ -13,7 +13,7 @@ class Controller {
     result = new Result();
     request = () => {
         if (this.arg1() && this.arg2()) {
-            var input = new Input();
+            const input = new Input();
             input.arg1 = this.arg1();
             input.arg2 = this.arg2();
             m.request<Result>({method: 'GET', url: '/calc', data: input, dataType: 'json'})

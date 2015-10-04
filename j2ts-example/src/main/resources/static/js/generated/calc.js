@@ -15,9 +15,8 @@ var Controller = (function () {
                 var input = new Input();
                 input.arg1 = _this.arg1();
                 input.arg2 = _this.arg2();
-                m.request({ method: 'GET', url: '/calc', data: input, dataType: 'json' }).then(function (res) {
-                    _this.result = res;
-                });
+                m.request({ method: 'GET', url: '/calc', data: input, dataType: 'json' })
+                    .then(function (res) { _this.result = res; });
             }
         };
     }
@@ -30,17 +29,12 @@ m.module(document.getElementById("calc-root"), {
     view: function (ctrl) {
         return [
             'Arg1',
-            m('input', { type: 'text', value: ctrl.arg1(), onchange: m.withAttr("value", ctrl.arg1) }),
-            m('br'),
+            m('input', { type: 'text', value: ctrl.arg1(), onchange: m.withAttr("value", ctrl.arg1) }), m('br'),
             'Arg2',
-            m('input', { type: 'text', value: ctrl.arg2(), onchange: m.withAttr("value", ctrl.arg2) }),
-            m('br'),
-            m('button', { onclick: ctrl.request }, 'Calc'),
-            m('br'),
-            'Add: ' + esc(ctrl.result.add),
-            m('br'),
-            'Subtract: ' + esc(ctrl.result.subtract),
-            m('br'),
+            m('input', { type: 'text', value: ctrl.arg2(), onchange: m.withAttr("value", ctrl.arg2) }), m('br'),
+            m('button', { onclick: ctrl.request }, 'Calc'), m('br'),
+            'Add: ' + esc(ctrl.result.add), m('br'),
+            'Subtract: ' + esc(ctrl.result.subtract), m('br'),
         ];
     }
 });

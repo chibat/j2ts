@@ -1,14 +1,17 @@
 /// <reference path="typings/mithril/mithril.d.ts" />
 
-function $br() {
+function BR() {
     return m('br');
 }
 
-function $input(attributes: {type: string; value: (string|number); onchange: ((value: any) => void)}) {
-    return m('input', attributes);
+function TEXT_FIELD(prop: (_mithril.MithrilPromiseProperty<Object>|_mithril.MithrilProperty<Object>), attr: any = {}) {
+    attr.value = prop();
+    attr.onchange = m.withAttr("value", prop);
+    return m('input[type=text]', attr);
 }
 
-function $button(attributes: {onclick: (() => void)}, value: string) {
-    return m('button', attributes, value);
+function BUTTON(value: string, onclick: (() => void), attr: any = {}) {
+    attr.onclick = onclick;
+    return m('button', attr, value);
 }
 
