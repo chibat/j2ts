@@ -1,4 +1,4 @@
-/// <reference path="typings/mithril/mithril.d.ts" />
+/// <reference path="typings/tsd.d.ts" />
 var Result = app.CalculateController.Result;
 var Input = app.CalculateController.Input;
 function esc(value) {

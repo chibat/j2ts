@@ -1,4 +1,4 @@
-/// <reference path="typings/mithril/mithril.d.ts" />
+/// <reference path="typings/tsd.d.ts" />
 
 import Result = app.CalculateController.Result;
 import Input = app.CalculateController.Input;

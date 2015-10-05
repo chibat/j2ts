@@ -1,0 +1,1 @@
+tsd install react-global --save
