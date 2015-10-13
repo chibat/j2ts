@@ -1,0 +1,13 @@
+{
+    "compilerOptions": {
+        "target": "es3",
+        "noImplicitAny": true,
+        "removeComments": true,
+        "preserveConstEnums": true,
+        "inlineSourceMap": true,
+        "inlineSources": true,
+        "rootDir": "src/main/ts",
+        "outDir": "src/main/resources/static/ts",
+        "jsx": "react"
+    }
+}

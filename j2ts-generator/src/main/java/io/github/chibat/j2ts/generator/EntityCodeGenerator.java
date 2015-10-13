@@ -134,7 +134,10 @@ public class EntityCodeGenerator {
         try {
             for (Entry<String, Map<String, String>> moduleEntry : moduleMap.entrySet()) {
                 String moduleName = moduleEntry.getKey();
-                writer.write((this.asClass ? "\n" : "\ndeclare ") + "module " + moduleName + " {");
+                writer.write((this.asClass ? "\n" : "\ndeclare ")
+                    + "namespace "
+                    + moduleName
+                    + " {");
                 Map<String, String> map = moduleEntry.getValue();
                 for (Entry<String, String> classEntry : map.entrySet()) {
                     String className = classEntry.getKey();
