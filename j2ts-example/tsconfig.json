@@ -7,7 +7,7 @@
         "inlineSourceMap": true,
         "inlineSources": true,
         "rootDir": "src/main/ts",
-        "outDir": "src/main/resources/static/ts",
+        "outDir": "build/resources/main/static/ts",
         "jsx": "react"
     }
 }

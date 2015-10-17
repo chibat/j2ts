@@ -161,7 +161,7 @@ project("j2ts-example") {
     // executable = true
   }
 
-  processResources.dependsOn compileTypeScript
+  jar.dependsOn compileTypeScript
 
   eclipse {
     project {
@@ -174,7 +174,7 @@ project("j2ts-example") {
     }
   }
 
-  mainClassName = 'app.component.Main'
+  mainClassName = 'app.Main'
 
   dependencies {
     compile 'org.springframework.boot:spring-boot-starter-web'
