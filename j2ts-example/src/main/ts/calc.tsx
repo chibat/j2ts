@@ -34,7 +34,7 @@ class MyComponent extends React.Component<{}, {arg1?: string, arg2?: string, res
     }
     render() {
         return (
-          <div>
+         <div>
              Arg1 <input type="text" value={this.state.arg1} onChange={e=>this.setState({arg1: value(e)})} /><br/>
              Arg2 <input type="text" value={this.state.arg2} onChange={e=>this.setState({arg2: value(e)})} /><br/>
              <button onClick={this.request}>Calc</button><br/>

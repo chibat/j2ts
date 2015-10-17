@@ -1,10 +1,8 @@
-package app;
+package app.component.web;
 
 import io.github.chibat.j2ts.annotation.TypeScriptClass;
 import lombok.Data;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -16,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
  * @author tomofumi
  */
 @RestController
-@EnableAutoConfiguration
 public class CalculateController {
 
     @RequestMapping("/calc")
@@ -52,8 +49,4 @@ public class CalculateController {
     // interceptor.setUseCacheControlNoStore(true);
     // return interceptor;
     // }
-
-    public static void main(String[] args) throws Exception {
-        SpringApplication.run(CalculateController.class, args);
-    }
 }

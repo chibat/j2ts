@@ -153,24 +153,15 @@ project("j2ts-example") {
   apply plugin: 'spring-boot'
 
   task compileTypeScript(type:Exec) {
-      ant.condition(property: "os", value: "windows") { os(family: "windows") }
-      ant.condition(property: "os", value: "unix" ) { os(family: "unix") }
-
-      switch(ant.properties.os){
-          case 'windows':
-              commandLine 'cmd', '/c', 'tsc'
-              break
-          case 'unix':
-              commandLine 'tsc'
-              break
-      }
+      ant.condition(property: "isWindows", value: true) { os(family: "windows") }
+      commandLine(ant.properties.isWindows ? ['cmd', '/c', 'tsc'] : ['tsc'])
   }
 
   springBoot {
     // executable = true
   }
 
-  // run.dependsOn compileTypeScript
+  processResources.dependsOn compileTypeScript
 
   eclipse {
     project {
@@ -183,11 +174,11 @@ project("j2ts-example") {
     }
   }
 
-  mainClassName = 'app.CalculateController'
+  mainClassName = 'app.component.Main'
 
   dependencies {
     compile 'org.springframework.boot:spring-boot-starter-web'
-    // compile 'org.webjars.bower:bootstrap:3.3.4'
+    compile 'org.webjars.bower:bootstrap:3.3.5'
     compile 'org.webjars.bower:react:0.14.0'
     compile 'org.webjars:jquery:1.11.3'
     compile 'org.projectlombok:lombok:1.16.6'
