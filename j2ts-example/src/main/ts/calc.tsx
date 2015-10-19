@@ -39,13 +39,15 @@ class MyComponent extends React.Component<{}, {arg1?: string, arg2?: string, res
   <div className="form-group">
     <label htmlFor="arg1" className="col-sm-2 control-label">Arg1</label>
     <div className="col-sm-5">
-      <input type="text" className="form-control" placeholder="Arg1" value={this.state.arg1} onChange={e=>this.setState({arg1: value(e)})} />
+      <input type="text" className="form-control" placeholder="Arg1"
+                        value={this.state.arg1} onChange={e=>this.setState({arg1: value(e)})} />
     </div>
   </div>
   <div className="form-group">
     <label htmlFor="arg2" className="col-sm-2 control-label">Arg2</label>
     <div className="col-sm-5">
-      <input type="text" className="form-control" placeholder="Arg2" value={this.state.arg2} onChange={e=>this.setState({arg2: value(e)})} />
+      <input type="text" className="form-control" placeholder="Arg2"
+                        value={this.state.arg2} onChange={e=>this.setState({arg2: value(e)})} />
     </div>
   </div>
   <div className="form-group">
