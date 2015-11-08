@@ -136,7 +136,7 @@ declare namespace __React {
         static contextTypes: ValidationMap<any>;
         static childContextTypes: ValidationMap<any>;
         static defaultProps: Props<any>;
-        
+
         constructor(props?: P, context?: any);
         setState(f: (prevState: S, props: P) => S, callback?: () => any): void;
         setState(state: S, callback?: () => any): void;
@@ -354,6 +354,7 @@ declare namespace __React {
         onInput?: FormEventHandler;
         onSubmit?: FormEventHandler;
         onClick?: MouseEventHandler;
+        onContextMenu?: MouseEventHandler;
         onDoubleClick?: MouseEventHandler;
         onDrag?: DragEventHandler;
         onDragEnd?: DragEventHandler;
@@ -376,7 +377,7 @@ declare namespace __React {
         onTouchStart?: TouchEventHandler;
         onScroll?: UIEventHandler;
         onWheel?: WheelEventHandler;
-        
+
         className?: string;
         id?: string;
 
@@ -426,7 +427,7 @@ declare namespace __React {
         allowTransparency?: boolean;
         alt?: string;
         async?: boolean;
-        autoComplete?: boolean;
+        autoComplete?: string;
         autoFocus?: boolean;
         autoPlay?: boolean;
         cellPadding?: number | string;
@@ -944,7 +945,7 @@ declare module "react/addons" {
         static contextTypes: ValidationMap<any>;
         static childContextTypes: ValidationMap<any>;
         static defaultProps: Props<any>;
-        
+
         constructor(props?: P, context?: any);
         setState(f: (prevState: S, props: P) => S, callback?: () => any): void;
         setState(state: S, callback?: () => any): void;
@@ -1613,7 +1614,7 @@ declare module "react/addons" {
         item(index: number): Touch;
         identifiedTouch(identifier: number): Touch;
     }
-    
+
     //
     // React.addons
     // ----------------------------------------------------------------------
@@ -1691,14 +1692,19 @@ declare module "react/addons" {
     // Reat.addons.update
     // ----------------------------------------------------------------------
 
-    interface UpdateSpec {
+    interface UpdateSpecCommand {
         $set?: any;
         $merge?: {};
         $apply?(value: any): any;
-        // [key: string]: UpdateSpec;
     }
 
-    interface UpdateArraySpec extends UpdateSpec {
+    interface UpdateSpecPath {
+        [key: string]: UpdateSpec;
+    }
+
+    type UpdateSpec = UpdateSpecCommand | UpdateSpecPath;
+
+    interface UpdateArraySpec extends UpdateSpecCommand {
         $push?: any[];
         $unshift?: any[];
         $splice?: any[][];

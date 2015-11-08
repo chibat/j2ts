@@ -66,7 +66,7 @@ class MyComponent extends React.Component<{}, {arg1?: string, arg2?: string, res
     }
 }
 
-React.render(<MyComponent />, document.getElementById('example'));
+ReactDOM.render(<MyComponent />, document.getElementById('example'));
 
 
 
